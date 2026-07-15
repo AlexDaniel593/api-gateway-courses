@@ -2,6 +2,8 @@ import { Injectable, OnApplicationBootstrap, Logger } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { coursesMessagePatterns } from 'src/constants';
+import { CreateCourseDto } from './dto/create-course.dto';
+import { UpdateCourseDto } from './dto/update-course.dto';
 
 @Injectable()
 export class CoursesService implements OnApplicationBootstrap {
@@ -35,11 +37,11 @@ export class CoursesService implements OnApplicationBootstrap {
     return lastValueFrom(this.client.send({ cmd: coursesMessagePatterns.GET_ONE_COURSE }, { id }));
   }
 
-  async create(data: any) {
+  async create(data: CreateCourseDto) {
     return lastValueFrom(this.client.send({ cmd: coursesMessagePatterns.CREATE_COURSE }, data));
   }
 
-  async update(id: string, data: any) {
+  async update(id: string, data: UpdateCourseDto) {
     return lastValueFrom(this.client.send({ cmd: coursesMessagePatterns.UPDATE_COURSE }, { id, ...data }));
   }
 
